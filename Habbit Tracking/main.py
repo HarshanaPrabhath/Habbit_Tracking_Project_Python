@@ -1,5 +1,5 @@
 import requests
-
+from datetime import datetime
 # ...................create account ...................
 pixela_endpoint = "https://pixe.la/v1/users"
 
@@ -19,9 +19,10 @@ pixela_parameters = {
 # ....................create graph.........................
 
 graph_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs"
+GRAPH_ID = "graph01"
 
 graph_configuration = {
-    "id": "graph01",
+    "id": GRAPH_ID,
     "name": "Coding",
     "unit": "Minutes",
     "type": "int",
@@ -32,5 +33,21 @@ headers = {
     "X-USER-TOKEN": TOKEN,
 }
 
-graph_response = requests.post(url=graph_endpoint, json=graph_configuration,headers=headers)
-print(graph_response.text)
+# graph_response = requests.post(url=graph_endpoint, json=graph_configuration,headers=headers)
+# print(graph_response.text)
+
+
+# ....................post graph.........................
+
+post_graph = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+
+today = datetime.now()
+today = today.strftime("%Y%m%d")
+
+post_graph_config = {
+    "date": today,
+    "quantity": "50",
+}
+
+post_graph_response = requests.post(url=post_graph, json=post_graph_config, headers=headers)
+print(post_graph_response.text)
